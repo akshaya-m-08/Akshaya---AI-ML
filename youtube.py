@@ -511,7 +511,7 @@ cursor,mydb = sql_connect()
 with st.container():
     st.title(":green[YOUTUBE DATA HARVESTING AND WAREHOUSING]")
 
-st.subheader("Python Scripting,Data Collection,Migrate SQL,API INTEGRATION")
+st.text("Python Scripting,API INTEGRATION,Data Collection,Data Warehousing,Data Visualization")
 
 #tabs in Streamlit
 tab1, tab2, tab3, tab4= st.tabs(["Fetch Data","Migrate Data","Show Data","Data Analysis"])
