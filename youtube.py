@@ -246,17 +246,11 @@ def Channel_Data_sqltable(new_channel_data):
         try:
             cursor.execute(insert_query,values)
             mydb.commit()
-            commit = True
+            return True
 
         except:
             print("Channel Details already exists")
-            commit = False
-    
-    if commit == True:
-        return True
-    else:
-        return False
-
+            return False
 
 #Table creation and migrating selected channel data into SQL Table from MongoDB - video_data
 def Video_Details_sqltable(new_channel_data):
@@ -339,16 +333,11 @@ def Video_Details_sqltable(new_channel_data):
         try:
             cursor.execute(insert_query,values)
             mydb.commit()
-            commit = True
+
 
         except:
             print("Video Details already exists")
-            commit = False
-            
-    if commit == True:
-        return True
-    else:
-        return False
+
 
         
 #Table creation and migrating selected channel data into SQL Table from MongoDB - comment_data
@@ -395,17 +384,11 @@ def Comment_Details_sqltable(new_channel_data):
         try:
             cursor.execute(insert_query,values)
             mydb.commit()
-            commit = True
+
 
         except:
             print("Comment Details already exists")
-            commit = False
             
-    if commit == True:
-        return True
-    else:
-        return False
-
 #Table creation and migrating selected channel data into SQL Table from MongoDB - playlist_data
 def Playlist_Details_sqltable(new_channel_data):
 
@@ -453,29 +436,23 @@ def Playlist_Details_sqltable(new_channel_data):
         try:
             cursor.execute(insert_query,values)
             mydb.commit()
-            commit=True
+
 
         except:
             print("Playlist Details already Exists")
-            commit=False
-            
-    if commit == True:
-        return True
-    else:
-        return False
                 
 # Function to Migrate to SQL for all tables
 def tables(new_channel_name):
 
     status1=Channel_Data_sqltable(new_channel_name)
-    status2=Video_Details_sqltable(new_channel_name)
-    status3=Playlist_Details_sqltable(new_channel_name)
-    status4=Comment_Details_sqltable(new_channel_name)
 
-    if status1 and status2 and status3 and status4 == True:
-        return True
+    if status1 == True:
+        Video_Details_sqltable(new_channel_name)
+        Playlist_Details_sqltable(new_channel_name)
+        Comment_Details_sqltable(new_channel_name)
+        return "SQL Migration Successful"
     else:
-        return False
+        return "Data Already Exists"
 
 #To show Channel detail in streamlit
 def show_channel_detail():
@@ -552,7 +529,7 @@ with tab1:
             st.success(insert)
             
         else:
-            st.success("Channel Details of the given channel is already exists")
+            st.error("Channel Details Already Exists")
 
 with tab2:
     all_channels=[]
@@ -564,12 +541,8 @@ with tab2:
 
     if st.button("Migrate to Sql"):
         Table=tables(unique_channel)
-        if Table == True:
-            st.success("SQL Migration Successfull")
-        else:
-            st.success("Data Already Exists")       
-
-            
+        st.error(Table)
+           
 with tab3:    
     show_table=st.radio("SELECT THE TABLE FOR VIEW",("CHANNELS","PLAYLIST","VIDEOS","COMMENTS"))
             
@@ -659,9 +632,10 @@ with tab4:
         on = st.toggle('Show Chart')
         if on:
             plt.figure(figsize=(10,10))
-            sns.barplot(x='Channel_Name', y='Highest Video Likes' , data=df5)
+            sns.barplot(x='Channel_Name', y='Highest Video Likes',data=df5,palette='Set2')
             plt.xlabel('Channel_Name',fontsize=16,color='r')
             plt.ylabel('Highest Video Likes',fontsize=16,color='r')
+            plt.xticks(rotation = 45)
             # st.set_option('deprecation.showPyplotGlobalUse', False)
             st.pyplot()
         
@@ -688,9 +662,10 @@ with tab4:
         on = st.toggle('Show Chart')
         if on:
             plt.figure(figsize=(10,6))
-            sns.barplot(x='Channel Name', y='Total Number of Views',data=df7)
+            sns.barplot(x='Channel Name', y='Total Number of Views',data=df7,palette='Set2')
             plt.xlabel('Channel Name',fontsize=16,color='r')
             plt.ylabel('Total Number of Views',fontsize=16,color='r')
+            plt.xticks(rotation = 45)
             # st.set_option('deprecation.showPyplotGlobalUse', False)
             st.pyplot()
           
@@ -742,14 +717,12 @@ with tab4:
         st.write(df10)
         on = st.toggle('Show Chart')
         if on:
-            fig, ax = plt.subplots()
-            ax.bar(x='Channel Name', y='Total Number of Comments',data=df10, width=1, edgecolor="white", linewidth=0.7)
-            ax.set(xlim=(0, 8), xticks=np.arange(1, 8), ylim=(0, 8), yticks=np.arange(1, 8))
-            # plt.figure(figsize=(10,6))
-            # sns.barplot(x='Channel Name', y='Total Number of Comments',data=df10)
-            # plt.xlabel('Channel Name',fontsize=16,color='r')
-            # plt.ylabel('Total Number of Comments',fontsize=16,color='r')
+            plt.figure(figsize=(10,6))
+            sns.barplot(x='Channel Name', y='Total Number of Comments',data=df10,palette='Set2')
+            plt.xlabel('Channel Name',fontsize=16,color='r')
+            plt.ylabel('Total Number of Comments',fontsize=16,color='r')
+            plt.xticks(rotation = 45)
             # st.set_option('deprecation.showPyplotGlobalUse', False)
-            st.pyplot(fig)
-            # plot
+            st.pyplot()
+
 
