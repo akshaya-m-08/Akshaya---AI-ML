@@ -59,8 +59,11 @@ In summary, this project leverages the Google API to collect, store, and analyze
 
 **User Interface**
 
+![User Interface](UI.jpg)
 
-![image]
+**GitHUb**
+
+https://github.com/akshaya-m-08/Akshaya---AI-ML.git
 
 
 
