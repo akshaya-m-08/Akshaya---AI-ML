@@ -510,7 +510,7 @@ cursor,mydb = sql_connect()
 with st.container():
     st.title(":green[YOUTUBE DATA HARVESTING AND WAREHOUSING]")
 
-st.text("Python Scripting,API INTEGRATION,Data Collection,Data Warehousing,Data Visualization")
+st.text("Python Scripting,Streamlit,API INTEGRATION,Data Collection,Data Warehousing,Data Visualization")
 
 #tabs in Streamlit
 tab1, tab2, tab3, tab4= st.tabs(["Fetch Data","Migrate Data","Show Data","Data Analysis"])
@@ -584,12 +584,22 @@ with tab4:
         
     elif Query == "2. Channels with most number of Videos and Show Total Video Count":
         query2 = ''' SELECT Channel_name AS Channel_Name, Channel_Total_Videos AS Total_Videos from Channel_data
-                    ORDER BY Channel_Total_Videos DESC'''
+                    ORDER BY Channel_Total_Videos'''
         cursor.execute(query2)
         mydb.commit()
         table2 = cursor.fetchall()
         df2 = pd.DataFrame(table2, columns=["Channel Name","Total Number of Videos"])
         st.write(df2)
+        on = st.toggle('Show Chart')
+        if on:
+            plt.figure(figsize=(10,10))
+            sns.barplot(x='Channel_Name', y='Total Number of Videos',data=df2,palette='Set2')
+            plt.xlabel('Channel_Name',fontsize=16,color='r')
+            plt.ylabel('Total Number of Videos',fontsize=16,color='r')
+            plt.xticks(rotation = 45)
+            st.set_option('deprecation.showPyplotGlobalUse', False)
+            st.pyplot()
+        
         
     elif Query == "3. 10 Most Viewed Videos with Channel name":
         query3 = ''' SELECT Video_Title AS Video_Title,
@@ -625,7 +635,7 @@ with tab4:
                     WHERE Video_Likes IS NOT NULL
                 ) AS RankedVideos
                 WHERE RowNum = 1
-                ORDER BY Video_Likes DESC'''
+                ORDER BY Video_Likes'''
         cursor.execute(query5)
         mydb.commit()
         table5 = cursor.fetchall()
@@ -638,7 +648,7 @@ with tab4:
             plt.xlabel('Channel_Name',fontsize=16,color='r')
             plt.ylabel('Highest Video Likes',fontsize=16,color='r')
             plt.xticks(rotation = 45)
-            # st.set_option('deprecation.showPyplotGlobalUse', False)
+            st.set_option('deprecation.showPyplotGlobalUse', False)
             st.pyplot()
         
     elif Query == "6. Total number of likes count for each video with Video Title":
@@ -655,7 +665,7 @@ with tab4:
     elif Query == "7. Total number of views for each channel with Channel name":
         query7 = ''' SELECT Channel_name AS Channel_Name, 
                     Channel_Views AS Channel_Views from Channel_data
-                    ORDER BY Channel_Views DESC'''
+                    ORDER BY Channel_Views '''
         cursor.execute(query7)
         mydb.commit()
         table7 = cursor.fetchall()
@@ -668,7 +678,7 @@ with tab4:
             plt.xlabel('Channel Name',fontsize=16,color='r')
             plt.ylabel('Total Number of Views',fontsize=16,color='r')
             plt.xticks(rotation = 45)
-            # st.set_option('deprecation.showPyplotGlobalUse', False)
+            st.set_option('deprecation.showPyplotGlobalUse', False)
             st.pyplot()
           
     elif Query == "8. Names of all the channels that have published videos in the year 2022":
@@ -711,7 +721,7 @@ with tab4:
                     WHERE Video_Comments IS NOT NULL
                     ) AS RankedVideos
                     WHERE RowNum = 1
-                    ORDER BY Video_Comments DESC '''
+                    ORDER BY Video_Comments '''
         cursor.execute(query10)
         mydb.commit()
         table10 = cursor.fetchall()
@@ -724,7 +734,7 @@ with tab4:
             plt.xlabel('Channel Name',fontsize=16,color='r')
             plt.ylabel('Total Number of Comments',fontsize=16,color='r')
             plt.xticks(rotation = 45)
-            # st.set_option('deprecation.showPyplotGlobalUse', False)
+            st.set_option('deprecation.showPyplotGlobalUse', False)
             st.pyplot()
 
 
