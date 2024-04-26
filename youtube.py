@@ -597,7 +597,6 @@ with tab4:
             plt.xlabel('Channel Name',fontsize=16,color='r')
             plt.ylabel('Total Number of Videos',fontsize=16,color='r')
             plt.xticks(rotation = 45)
-            sns.set_style("whitegrid")
             st.set_option('deprecation.showPyplotGlobalUse', False)
             st.pyplot()
         
