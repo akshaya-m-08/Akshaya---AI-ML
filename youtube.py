@@ -597,6 +597,7 @@ with tab4:
             plt.xlabel('Channel Name',fontsize=16,color='r')
             plt.ylabel('Total Number of Videos',fontsize=16,color='r')
             plt.xticks(rotation = 45)
+            sns.set_style("whitegrid")
             st.set_option('deprecation.showPyplotGlobalUse', False)
             st.pyplot()
         
@@ -648,6 +649,7 @@ with tab4:
             plt.xlabel('Channel_Name',fontsize=16,color='r')
             plt.ylabel('Highest Video Likes',fontsize=16,color='r')
             plt.xticks(rotation = 45)
+            sns.set_style("whitegrid")
             st.set_option('deprecation.showPyplotGlobalUse', False)
             st.pyplot()
         
@@ -678,6 +680,7 @@ with tab4:
             plt.xlabel('Channel Name',fontsize=16,color='r')
             plt.ylabel('Total Number of Views',fontsize=16,color='r')
             plt.xticks(rotation = 45)
+            sns.set_style("whitegrid")
             st.set_option('deprecation.showPyplotGlobalUse', False)
             st.pyplot()
           
@@ -734,6 +737,7 @@ with tab4:
             plt.xlabel('Channel Name',fontsize=16,color='r')
             plt.ylabel('Total Number of Comments',fontsize=16,color='r')
             plt.xticks(rotation = 45)
+            sns.set_style("whitegrid")
             st.set_option('deprecation.showPyplotGlobalUse', False)
             st.pyplot()
 
