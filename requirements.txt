@@ -1,7 +1,7 @@
-pandas --> version 2.2.2
-Streamlit --> version 1.33.0
-pymongo --> version 4.6.3
-google-api-python-client --> version 2.126.0
-seaborn --> version 0.13.2
-pysql --> version 1.1.0
-matplotlib --> version 3.8.4
+streamlit==1.33.0
+pandas>2.2.2
+pymongo<=4.6.3
+google-api-python-client<=2.126.0
+seaborn<=0.13.2
+pysql<=1.1.0
+matplotlib<=3.8.4
