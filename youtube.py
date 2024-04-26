@@ -449,9 +449,9 @@ def tables(new_channel_name):
         Video_Details_sqltable(new_channel_name)
         Playlist_Details_sqltable(new_channel_name)
         Comment_Details_sqltable(new_channel_name)
-        return "SQL Migration Successful"
+        return True
     else:
-        return "Data Already Exists"
+        return False
 
 #To show Channel detail in streamlit
 def show_channel_detail():
@@ -540,7 +540,10 @@ with tab2:
 
     if st.button("Migrate to Sql"):
         Table=tables(unique_channel)
-        st.error(Table)
+        if Table == True:
+            st.success("SQL Migration Successful")
+        else:
+            st.error("Data Already Exists")
            
 with tab3:    
     show_table=st.radio("SELECT THE TABLE FOR VIEW",("CHANNELS","PLAYLIST","VIDEOS","COMMENTS"))
