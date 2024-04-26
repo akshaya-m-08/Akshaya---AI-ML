@@ -526,7 +526,7 @@ selection = option_menu(
 
 
 if selection == "Fetch Data":
-    st.caption("Enter the Channel Id")
+    st.subheader("Enter the Channel Id")
     channel_id=st.text_input("")   
     if st.button("Fetch and Save"):
         ch_ids=[]
@@ -557,7 +557,7 @@ if selection == "Migrate Data":
             st.error("Data Already Exists")
            
 if selection == "Show Data":
-    st.write("Select the Table for View")
+    st.subheader("Select the Table for View")
     show_table=st.radio("",("CHANNELS","PLAYLIST","VIDEOS","COMMENTS"))
             
     if show_table=="CHANNELS":
