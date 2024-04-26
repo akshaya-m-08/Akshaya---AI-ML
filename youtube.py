@@ -187,8 +187,8 @@ def channel_details(channel_id):
     Comment_details=get_comment_details(Video_Ids)
     Playlist_Details=get_playlist_details(channel_id)
 
-    coll1=db["Channel_Data"]
-    coll1.insert_one({"Channel_Details":Channel_Data,"Playlist_Details":Playlist_Details,
+    collection=db["Channel_Data"]
+    collection.insert_one({"Channel_Details":Channel_Data,"Playlist_Details":Playlist_Details,
                       "Video_Details":Video_Details,"Comment_details":Comment_details})
     
     return "upload completed successfully"
@@ -224,8 +224,8 @@ def Channel_Data_sqltable(new_channel_data):
     mydb.commit()
         
     Channel_Data=[]
-    coll1=db["Channel_Data"]
-    for channel_data in coll1.find({'Channel_Details.Channel_name':new_channel_data},{"_id":0}):
+    collection=db["Channel_Data"]
+    for channel_data in collection.find({'Channel_Details.Channel_name':new_channel_data},{"_id":0}):
         Channel_Data.append(channel_data['Channel_Details'])
         
     df_Channel_Data = pd.DataFrame(Channel_Data[0])
@@ -287,8 +287,8 @@ def Video_Details_sqltable(new_channel_data):
     mydb.commit()
         
     Video_Details=[]
-    coll1=db["Channel_Data"]
-    for channel_data in coll1.find({'Channel_Details.Channel_name':new_channel_data},{"_id":0}):
+    collection=db["Channel_Data"]
+    for channel_data in collection.find({'Channel_Details.Channel_name':new_channel_data},{"_id":0}):
         Video_Details.append(channel_data['Video_Details'])
         
     df_Video_Details = pd.DataFrame(Video_Details[0])
@@ -364,8 +364,8 @@ def Comment_Details_sqltable(new_channel_data):
     mydb.commit()
         
     Comment_details=[]
-    coll1=db["Channel_Data"]
-    for channel_data in coll1.find({'Channel_Details.Channel_name':new_channel_data},{"_id":0}):
+    collection=db["Channel_Data"]
+    for channel_data in collection.find({'Channel_Details.Channel_name':new_channel_data},{"_id":0}):
         Comment_details.append(channel_data['Comment_details'])
     
     df_Comment_details= pd.DataFrame(Comment_details[0])
@@ -414,8 +414,8 @@ def Playlist_Details_sqltable(new_channel_data):
     mydb.commit()
     
     Playlist_Details=[]
-    coll1=db["Channel_Data"]
-    for channel_data in coll1.find({'Channel_Details.Channel_name':new_channel_data},{"_id":0}):
+    collection=db["Channel_Data"]
+    for channel_data in collection.find({'Channel_Details.Channel_name':new_channel_data},{"_id":0}):
         Playlist_Details.append(channel_data['Playlist_Details'])
         
     df_Playlist_Details = pd.DataFrame(Playlist_Details[0])
@@ -464,8 +464,8 @@ def tables(new_channel_name):
 #To show Channel detail in streamlit
 def show_channel_detail():
     Channel_Data=[]
-    coll1=db["Channel_Data"]
-    for channel_data in coll1.find({},{"_id":0,"Channel_Details":1}):
+    collection=db["Channel_Data"]
+    for channel_data in collection.find({},{"_id":0,"Channel_Details":1}):
         for i in range(len(channel_data['Channel_Details'])):
             Channel_Data.append(channel_data['Channel_Details'][i])
         
@@ -476,8 +476,8 @@ def show_channel_detail():
 #To show Video detail in streamlit
 def show_video_detail():
     Video_Details=[]
-    coll1=db["Channel_Data"]
-    for video_details in coll1.find({},{"_id":0,"Video_Details":1}):
+    collection=db["Channel_Data"]
+    for video_details in collection.find({},{"_id":0,"Video_Details":1}):
         for i in range(len(video_details['Video_Details'])):
             Video_Details.append(video_details['Video_Details'][i])
         
@@ -488,8 +488,8 @@ def show_video_detail():
 #To show Comment detail in streamlit
 def show_comment_detail():
     Comment_Details=[]
-    coll1=db["Channel_Data"]
-    for Comment_details in coll1.find({},{"_id":0,"Comment_details":1}):
+    collection=db["Channel_Data"]
+    for Comment_details in collection.find({},{"_id":0,"Comment_details":1}):
         for i in range(len(Comment_details['Comment_details'])):
             Comment_Details.append(Comment_details['Comment_details'][i])
     
@@ -500,8 +500,8 @@ def show_comment_detail():
 #To show Playlist detail in streamlit
 def show_playlist_detail():
     Playlist_Details=[]
-    coll1=db["Channel_Data"]
-    for Playlist_details in coll1.find({},{"_id":0,"Playlist_Details":1}):
+    collection=db["Channel_Data"]
+    for Playlist_details in collection.find({},{"_id":0,"Playlist_Details":1}):
         for i in range(len(Playlist_details['Playlist_Details'])):
             Playlist_Details.append(Playlist_details['Playlist_Details'][i])
         
@@ -528,10 +528,10 @@ selection = option_menu(
 if selection == "Fetch Data":
     st.subheader("Enter the Channel Id")
     channel_id=st.text_input("")   
-    if st.button("Collect and Store Data"):
+    if st.button("Fetch and Save"):
         ch_ids=[]
-        coll1=db["Channel_Data"]
-        for channel_data in coll1.find({},{"_id":0,"Channel_Details":1}):
+        collection=db["Channel_Data"]
+        for channel_data in collection.find({},{"_id":0,"Channel_Details":1}):
             ch_ids.append(channel_data["Channel_Details"][0]['Channel_Id'])
             
         if channel_id not in ch_ids:
@@ -543,8 +543,8 @@ if selection == "Fetch Data":
 
 if selection == "Migrate Data":
     all_channels=[]
-    coll1=db["Channel_Data"]
-    for channel_data in coll1.find({},{"_id":0,"Channel_Details":1}):
+    collection=db["Channel_Data"]
+    for channel_data in collection.find({},{"_id":0,"Channel_Details":1}):
         all_channels.append(channel_data["Channel_Details"][0]["Channel_name"])
         
     unique_channel= st.selectbox("Select the Channel",all_channels)
