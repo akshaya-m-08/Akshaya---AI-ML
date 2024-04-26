@@ -557,7 +557,7 @@ if selection == "Migrate Data":
             st.error("Data Already Exists")
            
 if selection == "Show Data":
-    st.caption("Select the Table for View")
+    st.write("Select the Table for View")
     show_table=st.radio("",("CHANNELS","PLAYLIST","VIDEOS","COMMENTS"))
             
     if show_table=="CHANNELS":
