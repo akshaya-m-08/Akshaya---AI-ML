@@ -1,8 +1,7 @@
-import pandas as pd
-from googleapiclient.discovery import build
-import pymysql
-import pymongo
-import streamlit as st
-import matplotlib.pyplot as plt
-import seaborn as sns
-import numpy as np
+pandas --> version 2.2.2
+Streamlit --> version 1.33.0
+pymongo --> version 4.6.3
+google-api-python-client --> version 2.126.0
+seaborn --> version 0.13.2
+pysql --> version 1.1.0
+matplotlib --> version 3.8.4

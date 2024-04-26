@@ -6,7 +6,6 @@ import pymongo
 import streamlit as st
 import matplotlib.pyplot as plt
 import seaborn as sns
-import numpy as np
 
 #API connection
 def api_Connection():
