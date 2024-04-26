@@ -526,7 +526,8 @@ selection = option_menu(
 
 
 if selection == "Fetch Data":
-    channel_id=st.text_input("Enter the Channel ID")   
+    st.subheader("Enter the Channel Id")
+    channel_id=st.text_input("")   
     if st.button("Collect and Store Data"):
         ch_ids=[]
         coll1=db["Channel_Data"]
