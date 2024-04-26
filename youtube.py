@@ -557,7 +557,7 @@ if selection == "Migrate Data":
            
 if selection == "Show Data":   
     st.title("SELECT THE TABLE FOR VIEW")
-    show_table=st.radio("CHANNELS","PLAYLIST","VIDEOS","COMMENTS")
+    show_table=st.radio(("CHANNELS","PLAYLIST","VIDEOS","COMMENTS"))
             
     if show_table=="CHANNELS":
         show_channel_detail()
