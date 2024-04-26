@@ -602,6 +602,7 @@ if selection == "Data Analysis":
         mydb.commit()
         table2 = cursor.fetchall()
         df2 = pd.DataFrame(table2, columns=["Channel Name","Total Number of Videos"])
+        df2.index = df2.index + 1
         st.dataframe(df2,width=1000)
         on = st.toggle('Show Chart')
         if on:
@@ -622,6 +623,7 @@ if selection == "Data Analysis":
         mydb.commit()
         table3 = cursor.fetchall()
         df3 = pd.DataFrame(table3, columns=["Video Title","Video Views","Channel_Name"])
+        df3.index = df3.index + 1
         st.dataframe(df3,width=2000)
         
     elif Query == "4. Comment count with Video Title":
@@ -634,6 +636,7 @@ if selection == "Data Analysis":
         mydb.commit()
         table4 = cursor.fetchall()
         df4 = pd.DataFrame(table4, columns=["Video Title","Total Video Comments","Channel_Name"])
+        df4.index = df4.index + 1
         st.dataframe(df4,width=2000)
 
     elif Query == "5. Highest number of likes with Channel name":
@@ -652,6 +655,7 @@ if selection == "Data Analysis":
         mydb.commit()
         table5 = cursor.fetchall()
         df5 = pd.DataFrame(table5, columns=["Channel_Name","Video Title","Highest Video Likes"])
+        df5.index = df5.index + 1
         st.dataframe(df5,width=1000)
         on = st.toggle('Show Chart')
         if on:
@@ -672,6 +676,7 @@ if selection == "Data Analysis":
         mydb.commit()
         table6 = cursor.fetchall()
         df6 = pd.DataFrame(table6, columns=["Video Title","Total Video Likes"])
+        df6.index = df6.index + 1
         st.dataframe(df6,width=2000)
         
     elif Query == "7. Total number of views for each channel with Channel name":
@@ -682,6 +687,7 @@ if selection == "Data Analysis":
         mydb.commit()
         table7 = cursor.fetchall()
         df7 = pd.DataFrame(table7, columns=["Channel Name","Total Number of Views"])
+        df7.index = df7.index + 1
         st.dataframe(df7,width=1000)
         on = st.toggle('Show Chart')
         if on:
@@ -702,6 +708,7 @@ if selection == "Data Analysis":
         mydb.commit()
         table8 = cursor.fetchall()
         df8 = pd.DataFrame(table8, columns=["Channel Name","video Title","Year"])
+        df8.index = df8.index + 1
         st.dataframe(df8,width=2000)
 
     elif Query == "9. Average Duration of all videos in each channel with Channel Name":
@@ -720,6 +727,7 @@ if selection == "Data Analysis":
 
         # Apply the function to create a new column with formatted duration
         df9['Average Video Duration'] = df9['Average Video Duration'].apply(seconds_to_time_string)
+        df9.index = df9.index + 1
         st.dataframe(df9,width=1000)
     
     elif Query == "10.Videos with Highest Comment with Channel Name":
@@ -738,6 +746,7 @@ if selection == "Data Analysis":
         mydb.commit()
         table10 = cursor.fetchall()
         df10 = pd.DataFrame(table10, columns=["Channel Name","Video Title","Total Number of Comments"])
+        df10.index = df10.index + 1
         st.dataframe(df10,width=2000)
         on = st.toggle('Show Chart')
         if on:
