@@ -592,6 +592,7 @@ if selection == "Data Analysis":
         mydb.commit()
         table1 = cursor.fetchall()
         df1 = pd.DataFrame(table1, columns=["Video Title","Channel Name"])
+        df1.index = df1.index + 1
         st.dataframe(df1,width=2000)
         
     elif Query == "2. Channels with most number of Videos and Show Total Video Count":
