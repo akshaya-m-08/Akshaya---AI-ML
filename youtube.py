@@ -593,8 +593,8 @@ with tab4:
         on = st.toggle('Show Chart')
         if on:
             plt.figure(figsize=(10,10))
-            sns.barplot(x='Channel_Name', y='Total Number of Videos',data=df2,palette='Set2')
-            plt.xlabel('Channel_Name',fontsize=16,color='r')
+            sns.barplot(x='Channel Name', y='Total Number of Videos',data=df2,palette='Set2')
+            plt.xlabel('Channel Name',fontsize=16,color='r')
             plt.ylabel('Total Number of Videos',fontsize=16,color='r')
             plt.xticks(rotation = 45)
             st.set_option('deprecation.showPyplotGlobalUse', False)
