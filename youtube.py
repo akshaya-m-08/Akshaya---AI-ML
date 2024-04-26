@@ -6,6 +6,14 @@ import pymongo
 import streamlit as st
 import matplotlib.pyplot as plt
 import seaborn as sns
+from streamlit_option_menu import option_menu
+
+st.set_page_config(page_title = "Youtube Data Harvesting",
+                   page_icon= "youtube",
+                   layout = "wide")
+
+with open('style.css') as f:
+    st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
 #API connection
 def api_Connection():
@@ -461,7 +469,7 @@ def show_channel_detail():
         for i in range(len(channel_data['Channel_Details'])):
             Channel_Data.append(channel_data['Channel_Details'][i])
         
-    st_Channel_Data = st.dataframe(Channel_Data)
+    st_Channel_Data = st.dataframe(Channel_Data,width=2000)
     
     return st_Channel_Data
 
@@ -473,7 +481,7 @@ def show_video_detail():
         for i in range(len(video_details['Video_Details'])):
             Video_Details.append(video_details['Video_Details'][i])
         
-    st_Video_Details = st.dataframe(Video_Details)
+    st_Video_Details = st.dataframe(Video_Details,width=2000)
     
     return st_Video_Details
 
@@ -485,7 +493,7 @@ def show_comment_detail():
         for i in range(len(Comment_details['Comment_details'])):
             Comment_Details.append(Comment_details['Comment_details'][i])
     
-    st_Comment_details= st.dataframe(Comment_Details)
+    st_Comment_details= st.dataframe(Comment_Details,width=2000)
     
     return st_Comment_details
 
@@ -497,7 +505,7 @@ def show_playlist_detail():
         for i in range(len(Playlist_details['Playlist_Details'])):
             Playlist_Details.append(Playlist_details['Playlist_Details'][i])
         
-    st_Playlist_Details = st.dataframe(Playlist_Details)
+    st_Playlist_Details = st.dataframe(Playlist_Details,width=2000)
     
     return st_Playlist_Details
 
@@ -506,16 +514,18 @@ client=pymongo.MongoClient("mongodb+srv://akshaya08:Abhi1%40aks@cluster0.s7e4jmk
 db=client["Youtube_data"]
 cursor,mydb = sql_connect()
 
-#containers in Streamlit
-with st.container():
-    st.title(":green[YOUTUBE DATA HARVESTING AND WAREHOUSING]")
-
-st.text("Python Scripting,Streamlit,API INTEGRATION,Data Collection,Data Warehousing,Data Visualization")
+st.title(":green[YOUTUBE DATA HARVESTING AND WAREHOUSING]")
 
 #tabs in Streamlit
-tab1, tab2, tab3, tab4= st.tabs(["Fetch Data","Migrate Data","Show Data","Data Analysis"])
+selection = option_menu(
+    menu_title= None,
+    options=["Fetch Data","Migrate Data","Show Data","Data Analysis"],
+    icons = ["youtube","database-fill-add","database",'bar-chart-line-fill'],
+    default_index=0,
+    orientation="horizontal")
 
-with tab1:
+
+if selection == "Fetch Data":
     channel_id=st.text_input("Enter the Channel ID")   
     if st.button("Collect and Store Data"):
         ch_ids=[]
@@ -530,7 +540,7 @@ with tab1:
         else:
             st.error("Channel Details Already Exists")
 
-with tab2:
+if selection == "Migrate Data":
     all_channels=[]
     coll1=db["Channel_Data"]
     for channel_data in coll1.find({},{"_id":0,"Channel_Details":1}):
@@ -545,7 +555,7 @@ with tab2:
         else:
             st.error("Data Already Exists")
            
-with tab3:    
+if selection == "Show Data":   
     show_table=st.radio("SELECT THE TABLE FOR VIEW",("CHANNELS","PLAYLIST","VIDEOS","COMMENTS"))
             
     if show_table=="CHANNELS":
@@ -560,7 +570,7 @@ with tab3:
     elif show_table=="PLAYLIST":
         show_playlist_detail()
         
-with tab4:   
+if selection == "Data Analysis":   
     Query = st.selectbox("Select your Query",("Select Query from the drop down",
                                                     "1. Show All the Videos and Channel name",
                                                     "2. Channels with most number of Videos and Show Total Video Count",
@@ -580,7 +590,7 @@ with tab4:
         mydb.commit()
         table1 = cursor.fetchall()
         df1 = pd.DataFrame(table1, columns=["Video Title","Channel Name"])
-        st.write(df1)
+        st.dataframe(df1,width=2000)
         
     elif Query == "2. Channels with most number of Videos and Show Total Video Count":
         query2 = ''' SELECT Channel_name AS Channel_Name, Channel_Total_Videos AS Total_Videos from Channel_data
@@ -589,10 +599,9 @@ with tab4:
         mydb.commit()
         table2 = cursor.fetchall()
         df2 = pd.DataFrame(table2, columns=["Channel Name","Total Number of Videos"])
-        st.write(df2)
+        st.dataframe(df2,width=1000)
         on = st.toggle('Show Chart')
         if on:
-            plt.figure(figsize=(10,10))
             sns.barplot(x='Channel Name', y='Total Number of Videos',data=df2,palette='Set2')
             plt.xlabel('Channel Name',fontsize=16,color='r')
             plt.ylabel('Total Number of Videos',fontsize=16,color='r')
@@ -610,7 +619,7 @@ with tab4:
         mydb.commit()
         table3 = cursor.fetchall()
         df3 = pd.DataFrame(table3, columns=["Video Title","Video Views","Channel_Name"])
-        st.write(df3)
+        st.dataframe(df3,width=2000)
         
     elif Query == "4. Comment count with Video Title":
         query4 = ''' SELECT Video_Title AS Video_Title,
@@ -622,7 +631,7 @@ with tab4:
         mydb.commit()
         table4 = cursor.fetchall()
         df4 = pd.DataFrame(table4, columns=["Video Title","Total Video Comments","Channel_Name"])
-        st.write(df4)
+        st.dataframe(df4,width=2000)
 
     elif Query == "5. Highest number of likes with Channel name":
         query5 = '''SELECT Channel_name AS Channel_Name,
@@ -640,10 +649,9 @@ with tab4:
         mydb.commit()
         table5 = cursor.fetchall()
         df5 = pd.DataFrame(table5, columns=["Channel_Name","Video Title","Highest Video Likes"])
-        st.write(df5)
+        st.dataframe(df5,width=1000)
         on = st.toggle('Show Chart')
         if on:
-            plt.figure(figsize=(10,10))
             sns.barplot(x='Channel_Name', y='Highest Video Likes',data=df5,palette='Set2')
             plt.xlabel('Channel_Name',fontsize=16,color='r')
             plt.ylabel('Highest Video Likes',fontsize=16,color='r')
@@ -661,7 +669,7 @@ with tab4:
         mydb.commit()
         table6 = cursor.fetchall()
         df6 = pd.DataFrame(table6, columns=["Video Title","Total Video Likes"])
-        st.write(df6)
+        st.dataframe(df6,width=2000)
         
     elif Query == "7. Total number of views for each channel with Channel name":
         query7 = ''' SELECT Channel_name AS Channel_Name, 
@@ -671,10 +679,9 @@ with tab4:
         mydb.commit()
         table7 = cursor.fetchall()
         df7 = pd.DataFrame(table7, columns=["Channel Name","Total Number of Views"])
-        st.write(df7)
+        st.dataframe(df7,width=1000)
         on = st.toggle('Show Chart')
         if on:
-            plt.figure(figsize=(10,6))
             sns.barplot(x='Channel Name', y='Total Number of Views',data=df7,palette='Set2')
             plt.xlabel('Channel Name',fontsize=16,color='r')
             plt.ylabel('Total Number of Views',fontsize=16,color='r')
@@ -692,7 +699,7 @@ with tab4:
         mydb.commit()
         table8 = cursor.fetchall()
         df8 = pd.DataFrame(table8, columns=["Channel Name","video Title","Year"])
-        st.write(df8)   
+        st.dataframe(df8,width=2000)
 
     elif Query == "9. Average Duration of all videos in each channel with Channel Name":
         query9 = ''' SELECT Channel_name AS Channel_Name,
@@ -710,7 +717,7 @@ with tab4:
 
         # Apply the function to create a new column with formatted duration
         df9['Average Video Duration'] = df9['Average Video Duration'].apply(seconds_to_time_string)
-        st.write(df9)
+        st.dataframe(df9,width=1000)
     
     elif Query == "10.Videos with Highest Comment with Channel Name":
         query10 = ''' SELECT Channel_name AS Channel_Name,
@@ -728,10 +735,9 @@ with tab4:
         mydb.commit()
         table10 = cursor.fetchall()
         df10 = pd.DataFrame(table10, columns=["Channel Name","Video Title","Total Number of Comments"])
-        st.write(df10)
+        st.dataframe(df10,width=2000)
         on = st.toggle('Show Chart')
         if on:
-            plt.figure(figsize=(10,6))
             sns.barplot(x='Channel Name', y='Total Number of Comments',data=df10,palette='Set2')
             plt.xlabel('Channel Name',fontsize=16,color='r')
             plt.ylabel('Total Number of Comments',fontsize=16,color='r')
