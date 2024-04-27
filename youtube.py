@@ -526,7 +526,7 @@ selection = option_menu(
 
 
 if selection == "Fetch Data":
-    st.subheader("Enter the Channel Id")
+    st.subheader("Enter the YouTube Channel Id")
     channel_id=st.text_input("")   
     if st.button("Fetch and Save"):
         ch_ids=[]
