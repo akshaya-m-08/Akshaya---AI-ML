@@ -195,10 +195,10 @@ def channel_details(channel_id):
 
 #To Connect with SQL Database
 def sql_connect():
-    mydb=pymysql.connect(host="sql6.freesqldatabase.com",
-                        user="sql6702344",
-                        password="fML1122Z7z",
-                        database="sql6702344",
+    mydb=pymysql.connect(host="qn66usrj1lwdk1cc.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+                        user="c7vxy08pcs9fuvum",
+                        password="v10q2u5vkxnoyen3",
+                        database="ita2g6ato5l2k3my",
                         port=3306)
 
     cursor=mydb.cursor()
